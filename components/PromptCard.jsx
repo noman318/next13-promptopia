@@ -6,6 +6,9 @@ import { useState } from "react";
 
 const PromptCard = ({ post, handleTagClick, handleDelete, handleEdit }) => {
   const [copied, setCopied] = useState("");
+  const pathName = usePathname();
+  const router = useRouter();
+  const { data: session } = useSession();
   // console.log("post", post);
   const handleCopy = () => {
     setCopied(post?.prompt);
@@ -53,6 +56,22 @@ const PromptCard = ({ post, handleTagClick, handleDelete, handleEdit }) => {
       >
         {post?.tag}
       </p>
+      {session?.user.id === post?.creator._id && pathName === "/profile" && (
+        <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
+          <p
+            className="text-sm font-inter green_gradient cursor-pointer"
+            onClick={handleEdit}
+          >
+            Edit
+          </p>
+          <p
+            className="text-sm font-inter orange_gradient cursor-pointer"
+            onClick={handleDelete}
+          >
+            Delete
+          </p>
+        </div>
+      )}
     </div>
   );
 };
